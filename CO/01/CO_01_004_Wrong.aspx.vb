@@ -1,0 +1,25 @@
+﻿Partial Class CO_01_004_Wrong
+    Inherits AuthBasePage
+
+    Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        '在這裡放置使用者程式碼以初始化網頁
+        PageControler1.PageDataGrid = DataGrid1
+
+        If Not IsPostBack Then
+            create()
+            Session("MyWrongTable") = Nothing
+        End If
+    End Sub
+
+    Sub create()
+        'If pagecontroler1.SSSDTRID <> "" Then
+        '    If Not Session(pagecontroler1.SSSDTRID) Is Nothing Then Session(pagecontroler1.SSSDTRID) = Nothing
+        'End If
+        If Session("MyWrongTable") Is Nothing Then Exit Sub
+        Dim dt As DataTable = Session("MyWrongTable")
+        PageControler1.SSSDTRID = TIMS.GetRnd6Eng()
+        PageControler1.PageDataTable = dt
+        PageControler1.ControlerLoad()
+    End Sub
+
+End Class

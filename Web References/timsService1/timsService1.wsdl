@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="https://wltims/TIMSWS/timsService1" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="https://wltims/TIMSWS/timsService1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="https://wltims/TIMSWS/timsService1">
+      <s:element name="ChkStudDouble">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IDNO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OCID1" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChkStudDoubleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ChkStudDoubleResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChkStudDouble2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xStudInfo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChkStudDouble2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ChkStudDouble2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ChkStudDoubleSoapIn">
+    <wsdl:part name="parameters" element="tns:ChkStudDouble" />
+  </wsdl:message>
+  <wsdl:message name="ChkStudDoubleSoapOut">
+    <wsdl:part name="parameters" element="tns:ChkStudDoubleResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChkStudDouble2SoapIn">
+    <wsdl:part name="parameters" element="tns:ChkStudDouble2" />
+  </wsdl:message>
+  <wsdl:message name="ChkStudDouble2SoapOut">
+    <wsdl:part name="parameters" element="tns:ChkStudDouble2Response" />
+  </wsdl:message>
+  <wsdl:message name="ChkStudDoubleHttpGetIn">
+    <wsdl:part name="IDNO" type="s:string" />
+    <wsdl:part name="OCID1" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ChkStudDoubleHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ChkStudDouble2HttpGetIn">
+    <wsdl:part name="xStudInfo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ChkStudDouble2HttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="timsService1Soap">
+    <wsdl:operation name="ChkStudDouble">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查詢學員參訓該班級是否有重複-產投</wsdl:documentation>
+      <wsdl:input message="tns:ChkStudDoubleSoapIn" />
+      <wsdl:output message="tns:ChkStudDoubleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChkStudDouble2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查詢學員參訓該班級是否有重複-產投(2)</wsdl:documentation>
+      <wsdl:input message="tns:ChkStudDouble2SoapIn" />
+      <wsdl:output message="tns:ChkStudDouble2SoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="timsService1HttpGet">
+    <wsdl:operation name="ChkStudDouble">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查詢學員參訓該班級是否有重複-產投</wsdl:documentation>
+      <wsdl:input message="tns:ChkStudDoubleHttpGetIn" />
+      <wsdl:output message="tns:ChkStudDoubleHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChkStudDouble2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查詢學員參訓該班級是否有重複-產投(2)</wsdl:documentation>
+      <wsdl:input message="tns:ChkStudDouble2HttpGetIn" />
+      <wsdl:output message="tns:ChkStudDouble2HttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="timsService1Soap" type="tns:timsService1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ChkStudDouble">
+      <soap:operation soapAction="https://wltims/TIMSWS/timsService1/ChkStudDouble" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChkStudDouble2">
+      <soap:operation soapAction="https://wltims/TIMSWS/timsService1/ChkStudDouble2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="timsService1Soap12" type="tns:timsService1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ChkStudDouble">
+      <soap12:operation soapAction="https://wltims/TIMSWS/timsService1/ChkStudDouble" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChkStudDouble2">
+      <soap12:operation soapAction="https://wltims/TIMSWS/timsService1/ChkStudDouble2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="timsService1HttpGet" type="tns:timsService1HttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="ChkStudDouble">
+      <http:operation location="/ChkStudDouble" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChkStudDouble2">
+      <http:operation location="/ChkStudDouble2" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="timsService1">
+    <wsdl:port name="timsService1Soap" binding="tns:timsService1Soap">
+      <soap:address location="https://wltims.wda.gov.tw/TIMSWS/timsService1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="timsService1Soap12" binding="tns:timsService1Soap12">
+      <soap12:address location="https://wltims.wda.gov.tw/TIMSWS/timsService1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="timsService1HttpGet" binding="tns:timsService1HttpGet">
+      <http:address location="https://wltims.wda.gov.tw/TIMSWS/timsService1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

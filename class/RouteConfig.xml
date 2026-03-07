@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RouteList>
+  <!-- 所有在根路徑中的程式, 都要在這個檔案中加以設定, 以註冊到 RouteConfig 中 -->
+  <!--<RouteDef url="AppError"></RouteDef>-->
+  <RouteDef url="index"></RouteDef>
+  <RouteDef url="eforgetPwd"></RouteDef>
+  <RouteDef url="emailChgPwd"></RouteDef>
+  <RouteDef url="eShwUsrInfo"></RouteDef>
+  <RouteDef url="login"></RouteDef>
+  <RouteDef url="MOICA_login"></RouteDef>
+  <RouteDef url="MOICA_upload"></RouteDef>
+  <RouteDef url="main"></RouteDef>
+  <RouteDef url="main2"></RouteDef>
+  <RouteDef url="main2_detail"></RouteDef>
+  <RouteDef url="selectplan"></RouteDef>
+  <RouteDef url="sch"></RouteDef>
+  <RouteDef url="SQControl"></RouteDef>
+  <RouteDef url="VisualChart"></RouteDef>
+
+</RouteList>

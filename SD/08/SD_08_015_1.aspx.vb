@@ -1,0 +1,437 @@
+﻿Partial Class SD_08_015_1
+    Inherits AuthBasePage
+
+    Dim sad As String
+    Dim ead As String
+    Dim lookat As String
+    Dim sql As String
+    Dim OCID As String
+    Dim PlanId As String
+    Dim Years As String
+    Dim Rid As String
+    Dim ClassName As String
+    Dim OrgName As String
+    Dim ttlMomey As Int64 = 0
+    Dim count As Int32
+    Dim objconn As SqlConnection
+
+    Private Sub sUtl_PageUnload(ByVal sender As Object, ByVal e As System.EventArgs)
+        Call TIMS.CloseDbConn(objconn)
+    End Sub
+
+    Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Response.Cache.SetExpires(DateTime.Now())
+        '檢查Session是否存在
+        ' (直接在 AuthBasePage 處理, 不用個別檢查 Session)  TIMS.CheckSession(Me)
+        objconn = DbAccess.GetConnection()
+        AddHandler MyBase.Unload, AddressOf sUtl_PageUnload
+
+        '在這裡放置使用者程式碼以初始化網頁
+        Dim sql As String = ""
+        'Dim timssql As String
+        Dim condsql As String = ""
+        Dim condsqltims As String = ""
+
+        Dim dt As New DataTable
+        Dim i As Int32 = 0
+        Dim j As Int32 = 0
+
+        Dim k As Int32 = 0 '第幾筆資料
+        Dim nt As HtmlTable = Nothing
+        Dim nr As HtmlTableRow = Nothing
+        Dim nc As HtmlTableCell = Nothing
+        Dim nl As HtmlGenericControl = Nothing
+        Dim PlanName As String = ""
+
+        sad = Request("sad")
+        ead = Request("ead")
+        OCID = Request("OCID")
+        PlanId = sm.UserInfo.PlanID
+        Years = sm.UserInfo.Years
+        Rid = Request("Rid")
+        OrgName = Server.UrlDecode(Request("OrgName"))
+        PlanName = Server.UrlDecode(Request("PlanName"))
+
+        sql = "" & vbCrLf
+        sql += " select ClassName" & vbCrLf
+        sql += " ,(select name from Key_Identity where identityid=a.IdentityID)  IdentityName" & vbCrLf
+        sql += " ,Name, Birthday,IDNO, TSDate, TEDate" & vbCrLf
+        sql += " ,OPayMoney,(OPayMoney-RtnMoney) ORtnMoney, RtnMoney,LDate" & vbCrLf
+        sql += " ,(select Reason from Key_RejectTReaSon where RTReasonId=a.RTReason)" & vbCrLf
+        sql += "  +case when RTReason_O is not null and RTReason_O!=' ' then ','+RTReason_O  end  RTReason" & vbCrLf
+        sql += " ,a.ocid from Sub_SubSidyApply_All a" & vbCrLf
+        sql += " where fromtype='1' and LFlag in('1','2')" & vbCrLf
+
+        '離退日期區間
+        If sad <> "" Then
+            sql += "and LDate >= " & TIMS.To_date(sad)
+        End If
+        If ead <> "" Then
+            sql += "and LDate <= " & TIMS.To_date(ead)
+        End If
+
+        If OCID.ToString <> "" Then '訓練機構
+            condsql = condsql & " And OCID in (" & OCID & ") "
+        Else
+            If PlanId.ToString <> "" Then
+                condsql = condsql & " And OCID in (Select OCID From Class_ClassInfo Where PlanId=" & PlanId & " And Years='" & Right(sm.UserInfo.Years.ToString, 2) & "' And Rid like '" & Rid.ToString & "%')"
+            End If
+        End If
+
+        'Dim strOrg As String
+        sql += condsql
+        sql += " order by ocid,idno, TSDate desc"
+
+        dt = DbAccess.GetDataTable(sql, objconn)
+
+        If dt.Rows.Count > 0 Then
+            If (dt.Rows.Count Mod 10) = 0 Then
+                count = (dt.Rows.Count / 10) - 1
+            Else
+                count = dt.Rows.Count / 10
+            End If
+
+            For i = 0 To count
+                '表頭
+                nt = New HtmlTable
+                nt.Attributes.Add("style", "width:100%; BORDER-TOP-STYLE: none;FONT-FAMILY: 標楷體;BORDER-RIGHT-STYLE: none;BORDER-LEFT-STYLE: none;BORDER-COLLAPSE: collapse;BORDER-BOTTOM-STYLE: none")
+                nt.Attributes.Add("align", "center")
+                nt.Attributes.Add("border", "0")
+                div_print.Controls.Add(nt)
+
+                nr = New HtmlTableRow
+                nt.Controls.Add(nr)
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("align", "left")
+                nc.Attributes.Add("colspan", 2)
+                nc.Attributes.Add("style", "font-size:14pt;font-family:DFKai-SB")
+                nc.InnerHtml = PlanName
+
+                nr = New HtmlTableRow
+                nt.Controls.Add(nr)
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "50%")
+                nc.Attributes.Add("align", "left")
+                nc.Attributes.Add("style", "font-size:14pt;font-family:DFKai-SB")
+                nc.InnerHtml = OrgName
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "50%")
+                nc.Attributes.Add("align", "left")
+                nc.Attributes.Add("style", "font-size:14pt;font-family:DFKai-SB")
+                nc.InnerHtml = (Convert.ToInt16(Year(Common.FormatDate2Ad(sad))) - 1911).ToString & "年度繳回退訓學員訓練生活津貼補助清冊"
+
+
+                nt = New HtmlTable
+                nt.Attributes.Add("style", "width:100%; BORDER-TOP-STYLE: none;FONT-FAMILY: 標楷體;BORDER-RIGHT-STYLE: none;BORDER-LEFT-STYLE: none;BORDER-COLLAPSE: collapse;BORDER-BOTTOM-STYLE: none")
+                nt.Attributes.Add("align", "center")
+                nt.Attributes.Add("border", "2")
+                div_print.Controls.Add(nt)
+
+                '欄位名稱
+                nr = New HtmlTableRow
+                nt.Controls.Add(nr)
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "5%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "編號"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "14%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "參訓班別"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "8%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "申請身分別"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "8%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "姓名"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "8%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "出生日期"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "10%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "身分證編號"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "9%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "受訓起<br>迄日期"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "7%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "原核發<br>金額"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "9%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "審核通過<br>後實際已<br>領取金額"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "7%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "本次退<br>回金額"
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "15%")
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                nc.InnerHtml = "退訓日期<br>退訓原因"
+
+                For j = 0 To 14
+                    If k + 1 > dt.Rows.Count Then
+                        GoTo [CONTINUE]
+                    End If
+
+                    '資料內容
+                    nr = New HtmlTableRow
+                    nt.Controls.Add(nr)
+
+                    '編號
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = k + 1
+
+                    '參訓班別
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = dt.Rows(k).Item(0)
+
+                    '申請身分別
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = dt.Rows(k).Item(1)
+
+                    '姓名
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = dt.Rows(k).Item(2)
+
+                    '出生日期
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = Common.FormatDate2Roc(dt.Rows(k).Item(3))
+
+                    '身分證編號或
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = dt.Rows(k).Item(4)
+
+                    '受訓起<br>迄日期
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = Common.FormatDate2Roc(dt.Rows(k).Item(5)) & "至<br>" & Common.FormatDate2Roc(dt.Rows(k).Item(6))
+
+                    '原核發金額
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = dt.Rows(k).Item(7)
+
+                    '審核通過<br>後實際可<br>領取金額
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = Convert.ToString(dt.Rows(k).Item(8))
+
+                    '本次退回金額
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = Convert.ToString(dt.Rows(k).Item(9))
+
+                    If Convert.ToString(dt.Rows(k).Item(9)) <> "" Then
+                        ttlMomey += Convert.ToInt64(dt.Rows(k).Item(9))
+                    End If
+
+                    '退訓日期、原因
+                    nc = New HtmlTableCell
+                    nr.Controls.Add(nc)
+                    nc.Attributes.Add("align", "center")
+                    nc.Attributes.Add("style", "font-size:10pt;font-family:DFKai-SB")
+                    nc.InnerHtml = Common.FormatDate2Roc(dt.Rows(k).Item(10)).ToString & "<br>" & dt.Rows(k).Item(11).ToString
+                    k += 1
+
+                    '最後一筆時，要顯示最後的表尾
+                    If k = dt.Rows.Count Then
+                        nt = New HtmlTable
+                        nt.Attributes.Add("style", "width:100%; BORDER-TOP-STYLE: none;FONT-FAMILY: 標楷體;BORDER-RIGHT-STYLE: none;BORDER-LEFT-STYLE: none;BORDER-COLLAPSE: collapse;BORDER-BOTTOM-STYLE: none")
+                        nt.Attributes.Add("align", "center")
+                        nt.Attributes.Add("border", "0")
+                        div_print.Controls.Add(nt)
+
+                        nr = New HtmlTableRow
+                        nt.Controls.Add(nr)
+
+                        nc = New HtmlTableCell
+                        nr.Controls.Add(nc)
+                        nc.Attributes.Add("colspan", 2)
+                        nc.Attributes.Add("align", "left")
+                        nc.Attributes.Add("style", "font-size:14pt;font-family:DFKai-SB")
+                        nc.InnerHtml = "<br>上列人數共計<u>&nbsp;&nbsp;" & k & "&nbsp;&nbsp;</u>人，，合計新臺幣<u>&nbsp;&nbsp;" & FormatNumber(ttlMomey, 0) & "&nbsp;&nbsp;</u>元整<br>"
+
+                        nr = New HtmlTableRow
+                        nt.Controls.Add(nr)
+
+                        nc = New HtmlTableCell
+                        nr.Controls.Add(nc)
+                        nc.Attributes.Add("width", "35%")
+                        nc.Attributes.Add("style", "font-size:14pt;font-family:DFKai-SB")
+                        nc.InnerHtml = "&nbsp;&nbsp;<br>"
+
+                        nc = New HtmlTableCell
+                        nr.Controls.Add(nc)
+                        nc.Attributes.Add("width", "65%")
+                        nc.Attributes.Add("align", "left")
+                        nc.Attributes.Add("style", "font-size:14pt;font-family:DFKai-SB")
+                        nc.InnerHtml = "<br>承辦人員：<br>"
+
+                        nr = New HtmlTableRow
+                        nt.Controls.Add(nr)
+
+                        nc = New HtmlTableCell
+                        nr.Controls.Add(nc)
+                        nc.Attributes.Add("colspan", 2)
+                        nc.Attributes.Add("align", "left")
+                        nc.Attributes.Add("style", "font-size:14pt;font-family:DFKai-SB")
+                        nc.InnerHtml = "<br>說明：本清冊請分別填繕一份，並加蓋承辦人員職章"
+                    End If
+                Next
+[CONTINUE]:
+                '表尾
+                nt = New HtmlTable
+                nt.Attributes.Add("style", "width:100%; BORDER-TOP-STYLE: none;FONT-FAMILY: 標楷體;BORDER-RIGHT-STYLE: none;BORDER-LEFT-STYLE: none;BORDER-COLLAPSE: collapse;BORDER-BOTTOM-STYLE: none")
+                nt.Attributes.Add("align", "center")
+                nt.Attributes.Add("border", "0")
+                div_print.Controls.Add(nt)
+
+                nr = New HtmlTableRow
+                nt.Controls.Add(nr)
+
+                nc = New HtmlTableCell
+                nr.Controls.Add(nc)
+                nc.Attributes.Add("width", "100%")
+                nc.Attributes.Add("colspan", 11)
+                nc.Attributes.Add("align", "center")
+                nc.Attributes.Add("style", "font-size:14pt;font-family:DFKai-SB")
+                nc.InnerHtml = "第 " & i + 1 & " 頁"
+
+                If k + 1 > dt.Rows.Count Then
+                    GoTo out
+                End If
+                '換頁列印
+                nl = New HtmlGenericControl
+                div_print.Controls.Add(nl)
+                nl.InnerHtml = "<p style='line-height:2px;margin:0cm;margin-bottom:0.0001pt;mso-pagination:widow-orphan;'><br clear=all style='mso-special-character:line-break;page-break-before:always'>"
+            Next
+out:
+        End If
+    End Sub
+
+    'Public Function getcname(ByVal val, ByVal type) As String
+    '    Dim strsql As String
+    '    Dim name As String
+    '    Select Case type
+    '        Case "id"
+    '            strsql = "select name from Key_Identity where identityid='" & val & "'"
+    '        Case "un"
+    '            strsql = "select orgname from sub_org where orgid = '" & val & "'"
+    '    End Select
+    '    name = DbAccess.ExecuteScalar(strsql, objconn)
+    '    Return name
+    'End Function
+
+    Private Function getOrgList(ByVal conn As SqlConnection, ByVal OrgId As String) As String
+        Dim rtnStr As String
+        Dim cmd As SqlCommand
+        Dim childCnt As Integer = 0
+        Dim ds As New DataSet
+        Dim ad As New SqlDataAdapter
+        Dim ChildOrgId As String
+        Dim rtnChild As String
+
+        rtnStr = OrgId
+
+        '檢查有無子單位
+        sql = "SELECT COUNT(1) CNT1 FROM SUB_ORG WHERE PARENT =@PARENT"
+        cmd = New SqlCommand(sql, conn)
+        cmd.Parameters.Clear()
+        cmd.Parameters.Add("PARENT", SqlDbType.BigInt).Value = Val(OrgId)
+        childCnt = Int32.Parse(cmd.ExecuteScalar().ToString())
+
+        '加入每個子單位
+        sql = "SELECT * FROM SUB_ORG WHERE PARENT =@PARENT"
+        'sql = "select * from sub_org where parent='" & OrgId & "'"
+        ad.SelectCommand = New SqlCommand(sql, conn)
+        ad.SelectCommand.Parameters.Clear()
+        ad.SelectCommand.Parameters.Add("PARENT", SqlDbType.BigInt).Value = Val(OrgId)
+        ad.Fill(ds, "sys_org")
+
+        For Each dr1 As DataRow In ds.Tables("sys_org").Rows
+            ChildOrgId = ""
+            If Not Convert.IsDBNull(dr1("orgid")) Then
+                ChildOrgId = dr1("orgid").ToString()
+            End If
+
+            rtnChild = getOrgList(conn, ChildOrgId)
+            If rtnChild <> "" Then
+                rtnStr += "," + rtnChild
+            End If
+        Next
+
+        Return rtnStr
+    End Function
+End Class
