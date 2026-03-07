@@ -1,0 +1,340 @@
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="SD_13_003.aspx.vb" Inherits="WDAIIP.SD_13_003" %>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>補助審核</title>
+    <meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+    <meta content="Visual Basic .NET 7.1" name="CODE_LANGUAGE">
+    <meta content="JavaScript" name="vs_defaultClientScript">
+    <meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+    <link href="../../css/style.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" language="javascript" src="../../js/date-picker.js"></script>
+    <script type="text/javascript" language="javascript" src="../../js/openwin/openwin.js"></script>
+    <script type="text/javascript" language="javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" language="javascript">
+        var _UA = window.navigator.userAgent;
+        var _isIE = (_UA.indexOf("MSIE") != -1 || _UA.indexOf("Trident") != -1) ? true : false;
+        if (document.body) { window.scroll(0, document.body.scrollHeight); }
+        //if (parent && parent.setMainFrameHeight() != undefined) { parent.setMainFrameHeight(); }
+    </script>
+    <script type="text/javascript" language="javascript">
+        function HistoryShearch() {
+            //查詢重複參訓 HistoryShearch
+            //window.open('SD_13_History.aspx?OCID=' + document.getElementById('OCIDValue1').value, 'history', 'width=1465,height=665,scrollbars=1')
+            window.open('SD_13_History.aspx?OCID=' + document.getElementById('OCIDValue1').value, 'history', 'scrollbars=1,resizable=1')
+        }
+
+        function CheckDate() {
+            var msg = ""
+            if (document.form1.Dclass.value == 1) {
+                //if(!confirm('身分證號碼錯誤，是否要繼續儲存?')) msg=msg+'身分證號碼錯誤\n';
+                if (!confirm('此班級的學員在其他計畫有參訓紀錄,按查詢重複參訓可以查看,您是否確定要經費審核確認?')) { msg = msg + '此班級的學員在其他計畫有參訓紀錄\n'; }
+            }
+            if (msg != '') {
+                alert(msg);
+                return false;
+            }
+            else {
+                return chkMoney();
+            }
+        }
+
+        //[全選／全不選]
+        function SelectAll_J() {
+            //debugger;
+            var sub_list_VerifyAll = $("#Datagrid2").find("select[Name$=list_VerifyAll]");
+            var v_list_VerifyAll = "";
+            if (sub_list_VerifyAll) { v_list_VerifyAll = sub_list_VerifyAll.val(); }
+            if (v_list_VerifyAll == "") { return; }
+            $('#Datagrid2 tr').each(function () {
+                //debugger;
+                var sub_list_Verify = $(this).find("select[Name$=list_Verify]");
+                if (sub_list_Verify) {
+                    if (sub_list_Verify.prop("disabled") == false) { sub_list_Verify.val(v_list_VerifyAll); }
+                }
+            });
+        }
+
+        function SelectAll() {
+            var tb = document.getElementById("Datagrid2");
+            var cst_cell_x = 11;
+            //debugger;
+            for (i = 1; i < tb.rows.length; i++) {
+                if (tb.rows[i].cells[cst_cell_x].childNodes[0].disabled == false) {
+                    /*tb.rows[i].cells[cst_cell_x].children[0].value = tb.rows[0].cells[11].children[0].value;*/
+                    tb.rows[i].cells[cst_cell_x].childNodes[0].value = tb.rows[0].cells[11].childNodes[0].value;
+                }
+            }
+        }
+
+        function chkMoney() {
+            var cst_name = 1;
+            var cst_Sum = 7;    //補助金額(本次補助金額)
+            var cst_Remain = 9; //剩餘可用
+            var cst_Verify = 11; //審核狀態
+
+            var MyTable = document.getElementById('Datagrid2');
+            var msg = '';
+            for (i = 1; i < MyTable.rows.length; i++) {
+                var SumOfMoney = parseInt(MyTable.rows[i].cells[cst_Sum].childNodes[0].value, 10);
+                var RemainSub = parseInt(MyTable.rows[i].cells[cst_Remain].childNodes[0].value, 10);
+                //alert(MyTable.rows[i].cells[11].children[1].value);
+                //alert(MyTable.rows[i].cells[11].children[0].value);
+                if (MyTable.rows[i].cells[cst_Verify].children[1].value == '1') {
+                    if (MyTable.rows[i].cells[cst_Verify].children[0].value == 'Y') {
+                        if (SumOfMoney > RemainSub) {
+                            //debugger;	 
+                            msg += '補助金額' + SumOfMoney + '不能超過剩餘可用餘額' + RemainSub + '(學員:' + MyTable.rows[i].cells[cst_name].childNodes[1].innerHTML + ')\n';
+                        }
+                    }
+                }
+            }
+            if (msg != '') {
+                alert(msg);
+                return false;
+            }
+        }
+
+        function GETvalue() {
+            document.getElementById('Button3').click();
+        }
+        function SetOneOCID() {
+            document.getElementById('Button4').click();
+        }
+        function choose_class() {
+            if (document.getElementById('OCID1').values == '') {
+                document.getElementById('Button4').click();
+            }
+            document.getElementById('DataGridTable').style.display = 'none';
+            openClass('../02/SD_02_ch.aspx?RID=' + document.getElementById('RIDValue').value);
+        }
+        function CheckSearch() {
+            if (document.getElementById('OCIDValue1').value == '') {
+                alert('請選擇職類班別');
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" method="post" runat="server">
+        <asp:Button ID="Button4" Style="display: none" runat="server"></asp:Button>
+        <asp:Button ID="Button3" Style="display: none" runat="server"></asp:Button>
+        <table class="font" id="FrameTable" cellspacing="1" cellpadding="1" width="100%" border="0">
+            <tr>
+                <td>
+                    <table class="font" id="Table1" cellspacing="1" cellpadding="1" width="100%" border="0">
+                        <tr>
+                            <td>
+                                <asp:Label ID="TitleLab1" runat="server"></asp:Label><asp:Label ID="TitleLab2" runat="server">
+									首頁&gt;&gt;學員動態管理&gt;&gt;補助金請領&gt;&gt;補助審核
+                                </asp:Label>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table_nw" id="Table2" cellspacing="1" cellpadding="1" width="100%">
+                        <tr>
+                            <td class="bluecol" style="width: 20%">訓練機構
+                            </td>
+                            <td class="whitecol">
+                                <asp:TextBox ID="center" runat="server" Width="55%"></asp:TextBox>
+                                <input id="RIDValue" type="hidden" name="RIDValue" runat="server" />
+                                <input id="Button2" type="button" value="..." name="Button2" runat="server" class="asp_button_Mini" />
+                                <span id="HistoryList2" style="display: none; z-index: 100; position: absolute" onclick="GETvalue()">
+                                    <asp:Table ID="HistoryRID" runat="server" Width="100%"></asp:Table>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bluecol_need">職類/班別
+                            </td>
+                            <td class="whitecol">
+                                <asp:TextBox ID="TMID1" runat="server" onfocus="this.blur()" Width="25%"></asp:TextBox>
+                                <asp:TextBox ID="OCID1" runat="server" onfocus="this.blur()" Width="30%"></asp:TextBox>
+                                <input onclick="choose_class()" type="button" value="..." class="asp_button_Mini" />
+                                <input id="TMIDValue1" type="hidden" name="TMIDValue1" runat="server" />
+                                <input id="OCIDValue1" type="hidden" name="OCIDValue1" runat="server" />
+                                <span id="HistoryList" style="display: none; z-index: 101; left: 270px; position: absolute">
+                                    <asp:Table ID="HistoryTable" runat="server" Width="100%"></asp:Table>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr id="tr_ddl_INQUIRY_S" runat="server">
+                            <td class="bluecol_need">查詢原因</td>
+                            <td class="whitecol">
+                                <asp:DropDownList ID="ddl_INQUIRY_Sch" runat="server"></asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="2" class="whitecol">
+                                <asp:Button ID="Button1" runat="server" Text="查詢" CssClass="asp_button_M"></asp:Button>
+                                <asp:Button ID="Button5" runat="server" Text="核銷文件審查" CssClass="asp_button_M"></asp:Button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="2" class="whitecol">
+                                <asp:Label ID="msg" runat="server" ForeColor="Red"></asp:Label>
+                            </td>
+                        </tr>
+                    </table>
+                    <asp:Panel ID="AuditNumPanel" runat="server">
+                        <table class="font" id="Table3" cellspacing="1" cellpadding="1" width="100%" border="0">
+                            <tr>
+                                <td>
+                                    <asp:Label ID="Label1" runat="server">審核成功學員數：</asp:Label><asp:Label ID="SNum" runat="server"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<asp:Label ID="Label2" runat="server">審核失敗學員數：</asp:Label><asp:Label ID="FNum" runat="server"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<asp:Label ID="Label3" runat="server">未審核學員數：</asp:Label><asp:Label ID="ANum" runat="server"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<asp:Label ID="Label4" runat="server">退件修正學員數：</asp:Label><asp:Label ID="RNum" runat="server"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </asp:Panel>
+                    <table class="font" id="DataGridTable" cellspacing="1" cellpadding="1" width="100%" border="0" runat="server">
+                        <tr>
+                            <td>滑鼠移至姓名可以顯示此學員前三年的申請紀錄
+							<asp:Label ID="Label6" runat="server" ForeColor="Red">　保險證號如果是"09"開頭者，用紅色顯示提醒不予補助</asp:Label>
+                                <%--<br><asp:Label ID="Label5" runat="server" ForeColor="Blue">*表學員參加此班的開訓日，未在勞保投保期間（點選學員姓名，可查看勞保明細）</asp:Label>--%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:DataGrid ID="Datagrid2" runat="server" Width="100%" AutoGenerateColumns="False" CssClass="font" AllowSorting="True" CellPadding="8">
+                                    <AlternatingItemStyle BackColor="#F5F5F5" />
+                                    <HeaderStyle CssClass="head_navy" />
+                                    <Columns>
+                                        <asp:TemplateColumn SortExpression="StudentID" HeaderText="學號">
+                                            <HeaderStyle ForeColor="#B0E2FF"></HeaderStyle>
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_StudentID" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="姓名">
+                                            <HeaderStyle></HeaderStyle>
+                                            <ItemTemplate>
+                                                <input id="hid_Name" type="hidden" name="hid_Name" runat="server" />
+                                                <%--<asp:Label ID="lab_Star" runat="server" ForeColor="Blue">*</asp:Label>--%>
+                                                <asp:LinkButton ID="link_Name" runat="server" CssClass="l" CommandName="Link"></asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn SortExpression="IDNO" HeaderText="身分證號碼">
+                                            <HeaderStyle ForeColor="#B0E2FF"></HeaderStyle>
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_IDNO" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="是否取得結訓資格">
+                                            <HeaderStyle></HeaderStyle>
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_EndClass" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="缺席未超過1/5">
+                                            <HeaderStyle></HeaderStyle>
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_OnClassRate" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="是否補助">
+                                            <HeaderStyle></HeaderStyle>
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_IsSubSidy" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="總費用">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_Total" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="補助費用">
+                                            <ItemTemplate>
+                                                <input id="hid_SubSidyCost" type="hidden" runat="server" name="hid_SubSidyCost">
+                                                <asp:Label ID="lab_SubSidyCost" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="個人支付">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_PersonalCost" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="剩餘可用餘額">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_Balance" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="其他申請中金額">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_OtherGovApply" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="審核">
+                                            <HeaderTemplate>
+                                                審核
+											<asp:DropDownList ID="list_VerifyAll" runat="server">
+                                                <asp:ListItem Value="Null" Selected="true">請選擇</asp:ListItem>
+                                                <asp:ListItem Value="Y">審核成功</asp:ListItem>
+                                                <asp:ListItem Value="N">審核失敗</asp:ListItem>
+                                                <asp:ListItem Value="R">退件修正</asp:ListItem>
+                                            </asp:DropDownList>
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <table>
+                                                    <tr>
+                                                        <td class="whitecol">
+                                                            <asp:DropDownList ID="list_Verify" runat="server">
+                                                                <asp:ListItem Value="Null">請選擇</asp:ListItem>
+                                                                <asp:ListItem Value="Y">審核成功</asp:ListItem>
+                                                                <asp:ListItem Value="N">審核失敗</asp:ListItem>
+                                                                <asp:ListItem Value="R">退件修正</asp:ListItem>
+                                                            </asp:DropDownList>
+                                                        </td>
+                                                        <td style="font-size: small">
+                                                            <input id="hid_vstatus" type="hidden" name="hid_vstatus" runat="server" />
+                                                            <asp:LinkButton ID="btn_BackVerify" runat="server" Text="還原" CommandName="back" CssClass="linkbutton"></asp:LinkButton>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="審核備註">
+                                            <ItemStyle CssClass="whitecol" />
+                                            <ItemTemplate>
+                                                <asp:TextBox ID="txt_VerifyNote" runat="server" Width="80px" TextMode="MultiLine"></asp:TextBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="保險證號">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lab_ActNO" runat="server"></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn HeaderText="預算別">
+                                            <ItemStyle CssClass="whitecol" />
+                                            <ItemTemplate>
+                                                <asp:DropDownList ID="list_BudID" runat="server">
+                                                </asp:DropDownList>
+                                                <input id="hid_OverPay" type="hidden" runat="server" name="hid_OverPay">
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                    </Columns>
+                                </asp:DataGrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" class="whitecol">
+                                <asp:Button ID="AuditCheck" runat="server" Text="經費審核確認" ToolTip="整班經費審核通過及不補助" CssClass="asp_button_M"></asp:Button>
+                                <input id="HistorySh" onclick="HistoryShearch();" type="button" value="查詢重複參訓" name="HistorySh" runat="server" class="asp_button_M" />
+                                <asp:Button ID="AuditCheckR" runat="server" Text="還原經費審核確認" ToolTip="整班經費審核通過及不補助" CssClass="asp_button_M" Visible="False"></asp:Button>
+                                <input id="Dclass" type="hidden" name="Dclass" runat="server" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <asp:HiddenField ID="Hid_SOCID" runat="server" />
+        <asp:HiddenField ID="Hid_OCID" runat="server" />
+        <asp:HiddenField ID="Hid_SD13003_BTN5" runat="server" />        
+    </form>
+</body>
+</html>

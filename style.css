@@ -1,0 +1,327 @@
+﻿.font
+{
+	font-family: "新細明體";
+	font-size: 9pt;
+	line-height: 16px;
+}
+.font10
+{
+	font-family: "新細明體";
+	font-size: 10pt;
+	font-weight: normal;
+}
+.font11
+{
+	font-family: "新細明體";
+	font-size: 11pt;
+	line-height: 16px;
+}
+
+.center1
+{
+	text-align: center;
+}
+
+.itemfont
+{
+	font-family: "新細明體" , "細明體" , "Arial", "Helvetica", sans-serif;
+}
+
+newlink
+{
+	font-size: 9pt;
+	line-height: 130%;
+}
+
+a.newlink
+{
+	font-size: 9pt;
+	text-decoration: none;
+	font-family: "新細明體" , "細明體" , "Arial", "Helvetica", sans-serif;
+	color: #666666;
+	line-height: 17px;
+}
+a.newlink:visited
+{
+	font-size: 9pt;
+	text-decoration: none;
+	font-family: "新細明體" , "細明體" , "Arial", "Helvetica", sans-serif;
+	color: #000000;
+}
+a.newlink:active
+{
+	font-size: 9pt;
+	text-decoration: none;
+	font-family: "新細明體" , "細明體" , "Arial", "Helvetica", sans-serif;
+	color: #000000;
+}
+a.newlink:hover
+{
+	font-size: 9pt;
+	text-decoration: none;
+	font-family: "新細明體" , "細明體" , "Arial", "Helvetica", sans-serif;
+	color: #0066cc;
+	left: 1px;
+	position: relative;
+	top: 1px;
+}
+
+.TC_TD1
+{
+	background-color: #cccc66;
+}
+.TC_TD2
+{
+	background-color: #FFFDC7;
+}
+
+.TC_TD3
+{
+	background-color: #ffcccc;
+}
+
+.SD_title
+{
+	background-color: #FAEAC9;
+}
+.SD_TR1
+{
+	background-color: #2BACC8;
+	color: #FFFFFF;
+	font-family: "新細明體";
+	font-size: 10pt;
+	font-weight: normal;
+}
+.SD_TR2
+{
+	background-color: #ECF7FF;
+}
+.SD_TD1
+{
+	background-color: #2aafc0;
+	color: White;
+}
+.SD_TD2
+{
+	background-color: #ecf7ff;
+}
+
+.CP_TD1
+{
+	background-color: #cc6666;
+	color: White;
+}
+.CP_TD2
+{
+	background-color: #ffecec;
+}
+
+.TD_TD1
+{
+	background-color: #CC6666;
+	color: #FFFFFF;
+}
+
+.TD_TD2
+{
+	background-color: #FFECEC;
+}
+
+.TD_TD3
+{
+	background-color: #FFCCCC;
+	color: #000000;
+}
+
+.TR_TD1
+{
+	background-color: #FFCC66;
+}
+
+.TR_TR1
+{
+	background-color: #9CC9F0;
+}
+.TR_TR2
+{
+	background-color: #E9F2FC;
+}
+
+.TR_TD3
+{
+	background-color: #2aafc0;
+	color: White;
+}
+
+.TR_TD4
+{
+	background-color: #ecf7ff;
+}
+
+.TR_TR3
+{
+	background-color: #2aafc0;
+	color: White;
+	text-align: center;
+}
+
+.TR_TR4
+{
+	background-color: #ecf7ff;
+	text-align: center;
+	color: Black;
+}
+
+.TR_04002_TR
+{
+	background-color: #A7BCF5;
+	text-align: center;
+}
+.TR_04002_TD
+{
+	background-color: #E4EBFC;
+}
+.TR_04002_TD2
+{
+	background-color: #EEF3FD;
+}
+
+.ES_TD1
+{
+	background-color: #9CC9F0;
+	width: 100px;
+}
+.ES_TD2
+{
+	background-color: #FFFFFF;
+}
+
+.ES_TD3
+{
+	width: 100px;
+}
+
+.ES_Title
+{
+	background-color: #D29E00;
+	color: #FFFFFF;
+}
+
+.ES_Table
+{
+	font-family: "新細明體" , "Arial", "Helvetica", sans-serif;
+	font-size: 9pt;
+	color: #333333;
+	border: "#A27900";
+	border-color: "#A27900";
+}
+.ES_TR1
+{
+	background-color: #FFFFFF;
+}
+
+.ES_TR2
+{
+	background-color: #FFF9E6;
+}
+
+.CM_TD1
+{
+	background-color: #2aafc0;
+	color: White;
+}
+.CM_TD2
+{
+	background-color: #ecf7ff;
+}
+.CM_TR1
+{
+	background-color: #2aafc0;
+	color: White;
+	text-align: center;
+}
+.CM_TR2
+{
+	background-color: #ecf7ff;
+	text-align: center;
+}
+
+.SYS_TD1
+{
+	background-color: #96b5e3;
+	color: White;
+}
+.SYS_TD2
+{
+	background-color: #EBF3FE;
+}
+.SYS_TD3
+{
+	background-color: #F4F9FF;
+}
+
+td.dashline
+{
+	background-image: url(/TIMS/images/_dashline.gif);
+	height: 1px;
+}
+
+A:link
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:visited
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:active
+{
+	text-decoration: none;
+	color: #e3e3e3;
+}
+
+A:hover
+{
+	text-decoration: underline;
+	color: #e3e3e3;
+}
+
+A.l:link
+{
+	font-size: 9pt;
+	color: blue;
+	line-height: 16px;
+	font-family: "新細明體";
+}
+A.l:visited
+{
+	font-size: 9pt;
+	color: purple;
+	line-height: 16px;
+	font-family: "新細明體";
+}
+A.l:active
+{
+	font-size: 9pt;
+	color: navy;
+	line-height: 16px;
+	font-family: "新細明體";
+}
+A.l:hover
+{
+	font-size: 9pt;
+	color: navy;
+	line-height: 16px;
+	font-family: "新細明體";
+}
+A.l
+{
+	font-size: 9pt;
+	color: navy;
+	line-height: 16px;
+	font-family: "新細明體";
+}

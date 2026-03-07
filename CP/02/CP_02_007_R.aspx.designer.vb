@@ -1,0 +1,114 @@
+'------------------------------------------------------------------------------
+' <自動產生的>
+'     這段程式碼是由工具產生的。
+'
+'     變更這個檔案可能會導致不正確的行為，而且如果已重新產生
+'     程式碼，則會遺失變更。
+' </自動產生的>
+'------------------------------------------------------------------------------
+
+Option Strict On
+Option Explicit On
+
+
+Partial Public Class CP_02_007_R
+    
+    '''<summary>
+    '''form1 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
+    
+    '''<summary>
+    '''TitleLab1 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TitleLab1 As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''TitleLab2 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TitleLab2 As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''syear 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents syear As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''smonth 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents smonth As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''DistID 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents DistID As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''TPlanID 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents TPlanID As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''RBListExpType 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents RBListExpType As Global.System.Web.UI.WebControls.RadioButtonList
+    
+    '''<summary>
+    '''Button1 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnExport1 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents btnExport1 As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''msg1 控制項。
+    '''</summary>
+    '''<remarks>
+    '''自動產生的欄位。
+    '''若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+    '''</remarks>
+    Protected WithEvents msg1 As Global.System.Web.UI.WebControls.Label
+End Class

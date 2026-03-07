@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="https://wltims.wda.gov.tw/WdaLine/TeacherSchedules.asmx?wsdl" docRef="https://wltims.wda.gov.tw/WdaLine/TeacherSchedules.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="https://wltims.wda.gov.tw/WdaLine/TeacherSchedules.asmx" xmlns:q1="http://wltims.Wdaline/TeacherSchedules" binding="q1:TeacherSchedulesSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="https://wltims.wda.gov.tw/WdaLine/TeacherSchedules.asmx" xmlns:q2="http://wltims.Wdaline/TeacherSchedules" binding="q2:TeacherSchedulesSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

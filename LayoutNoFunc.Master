@@ -1,0 +1,111 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="LayoutNoFunc.master.vb" Inherits="WDAIIP.LayoutNoFunc" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="x-ua-compatible" content="IE=11" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>勞動部勞動力發展署｜在職訓練資訊管理系統</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="勞動部勞動力發展署｜在職訓練資訊管理系統" />
+    <meta name="keywords" content="勞動部,勞動力發展署,在職訓練資訊管理系統,資訊系統,自辦在職,產業人才投資" />
+    <meta name="author" content="東柏資訊" />
+    <meta name="copyright" content="本網頁著作權屬勞動部勞動力發展署所有" />
+
+    <link href="/Content/jquery-confirm.min.css" rel="stylesheet" />
+    <link href="/Content/bootstrap3-3-6.min.css" rel="stylesheet" />
+    <link href="/Content/bootstrap-treeview.css" rel="stylesheet" />
+    <link href="/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="/css/base.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="<%=ReqAppPath%>Scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="<%=ReqAppPath%>Scripts/jquery-migrate-3.4.1.min.js"></script>
+    <script type="text/javascript" src="<%=ReqAppPath%>Scripts/jquery-confirm.min.js"></script>
+    <script type="text/javascript" src="<%=ReqAppPath%>Scripts/jquery.blockUI.js"></script>
+
+    <script type="text/javascript" src="<%=ReqAppPath%>Scripts/bootstrap.js"></script>
+    <script type="text/javascript" src="<%=ReqAppPath%>Scripts/bootstrap-treeview.js"></script>
+
+    <script type="text/javascript" src="<%=ReqAppPath%>Scripts/global.js"></script>
+    <script type="text/javascript" src="<%=ReqAppPath%>Scripts/polyfill.min.js"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            var lastErrorMessage = $("#Msg_LastErrorMessage").html();
+            var lastResultMessage = $("#Msg_LastResultMessage").html();
+            var redirectUrl = $("#Msg_RedirectUrlAfterBlock").html();
+
+            if (lastErrorMessage) {
+                blockAlert(lastErrorMessage, "錯誤訊息");
+            }
+            else if (lastResultMessage) {
+                blockMessage(lastResultMessage, null, function () {
+                    if (redirectUrl) {
+
+                        var form = $("form[name=RedirAfterBlockResult]");
+                        var p = redirectUrl.indexOf("?");
+                        if (p > 0) {
+                            var parms = redirectUrl.substring(p + 1).split("&");
+                            redirectUrl = redirectUrl.substring(0, p);
+                            for (var i = 0; i < parms.length; i++) {
+                                var ptoken = parms[i].split("=");
+                                if (ptoken.length == 2) {
+                                    var input = document.createElement("input");
+                                    $(input).attr("type", "hidden");
+                                    $(input).attr("name", ptoken[0]);
+                                    $(input).attr("value", ptoken[1]);
+
+                                    form.append(input);
+                                }
+                                else {
+                                    debugTrace("RedirectUrlAfterBlock: parameter syntax error '" + parms[i] + "'");
+                                }
+                            }
+                        }
+                        form.attr("action", redirectUrl);
+                        form.submit();
+                    }
+                });
+            }
+        });
+    </script>
+    <style type="text/css">
+        .mask-on-jobs { opacity: 0.24; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url('images/wda_logo_on_job_bg-2.svg'); }
+        .mask-on-jobs-bg { opacity: 0.48; background-position: center; background-repeat: no-repeat; background-size: inherit; background-image: url('images/wda_logo_on_job_bg-1.svg'); }
+        .mask-on-jobs-bg2 ~ * { position: relative; }
+        .header { background-color: #fff; position: relative; }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="bodybg">
+    <div class="bodybg">
+        <div class="container-fluid">
+            <!-- page body start -->
+            <div class="container">
+                <div id="Msg_LastErrorMessage" style="display: none"><asp:Literal ID="LastErrorMessage" runat="server"></asp:Literal></div>
+                <div id="Msg_LastResultMessage" style="display: none"><asp:Literal ID="LastResultMessage" runat="server"></asp:Literal></div>
+                <div id="Msg_RedirectUrlAfterBlock" style="display: none"><asp:Literal ID="RedirectUrlAfterBlock" runat="server"></asp:Literal></div>
+                <div id="Msg_helppdf1" style="display: none"><asp:Literal ID="Lithelppdf1" runat="server"></asp:Literal></div>
+                <!-- header start -->
+                <div class="header" style="height: 80px; text-align: center;">
+                    <div class="mask-on-jobs"></div>
+                    <div class="mask-on-jobs-bg"></div>
+                    <div class="logo-login"><img src="images/wda_logo_on_job.svg" class="img-responsive" alt="勞動部勞動力發展署職業訓練資訊管理系統" /></div>
+                </div>
+                <!-- header end -->
+                <form id="MasterForm" runat="server" class="form-horizontal">
+                    <asp:ContentPlaceHolder ID="MainCPH" runat="server">
+                    </asp:ContentPlaceHolder>
+                </form>
+            </div>
+            <!-- container end -->
+        </div>
+    </div>
+    <form name="RedirAfterBlockResult" method="post"></form>
+</body>
+</html>

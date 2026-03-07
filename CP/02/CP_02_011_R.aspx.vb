@@ -1,0 +1,102 @@
+﻿
+Partial Class CP_02_011_R
+    Inherits AuthBasePage
+
+    Dim objconn As SqlConnection
+
+    Private Sub sUtl_PageUnload(ByVal sender As Object, ByVal e As System.EventArgs)
+        Call TIMS.CloseDbConn(objconn)
+    End Sub
+
+    Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        '在這裡放置使用者程式碼以初始化網頁
+        '檢查Session是否存在 Start
+        ' (直接在 AuthBasePage 處理, 不用個別檢查 Session)  TIMS.CheckSession(Me)
+        TIMS.Get_TitleLab(Request("ID"), TitleLab1, TitleLab2)
+        objconn = DbAccess.GetConnection()
+        AddHandler MyBase.Unload, AddressOf sUtl_PageUnload
+        '檢查Session是否存在 End
+
+        If Not IsPostBack Then
+
+            syear = TIMS.GetSyear(syear)
+
+            If sm.UserInfo.DistID = "000" Then
+                TPlan = TIMS.Get_TPlan(TPlan, , 1)
+
+            Else
+                'TPlan = TIMS.Get_TPlan(TPlan)
+                TPlan = TIMS.Get_TPlan(TPlan, , 1)
+                TPlan.Enabled = False
+            End If
+            TPlan.SelectedValue = sm.UserInfo.TPlanID
+            center.Text = sm.UserInfo.OrgName
+            RIDValue.Value = sm.UserInfo.RID
+        End If
+
+        Const cst_javascript_openOrg_FMT1 As String = "javascript:openOrg('../../Common/LevOrg{0}.aspx');"
+        Button1.Attributes("onclick") = String.Format(cst_javascript_openOrg_FMT1, If(sm.UserInfo.RID = "A" OrElse sm.UserInfo.RoleID <= 1, "", "1"))
+
+        Button2.Attributes("onclick") = "javascript:return search()"
+
+        TIMS.ShowHistoryRID(Me, HistoryRID, "HistoryList2", "RIDValue", "center")
+        If HistoryRID.Rows.Count <> 0 Then
+            center.Attributes("onclick") = "showObj('HistoryList2');ShowFrame();"
+            HistoryRID.Attributes("onclick") = "ShowFrame();"
+            center.Style("CURSOR") = "hand"
+        End If
+    End Sub
+
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        'Dim cGuid As String =   ReportQuery.GetGuid(Page)
+        'Dim Url As String =   ReportQuery.GetUrl(Page)
+        'Dim sql As String = "select Relship  from Auth_Relship where RID='" & RIDValue.Value & "'"
+        'Dim dr As DataRow
+        'dr = DbAccess.GetOneRow(sql)
+        'Dim relship_str As String = dr("Relship")
+        'Dim strScript As String
+        'strScript = "<script language=""javascript"">" + vbCrLf
+        'strScript += "window.open('" & Url & "GUID=" + cGuid + "&SQ_AutoLogout=true&sys=MultiBlock&filename=CP_02_011_R&path=TIMS&Relship=" & relship_str & "&TPlanID=" & TPlan.SelectedValue & "&Years=" & syear.SelectedValue & "&start_date=" & start_date.Text & "&end_date=" & end_date.Text & "&start_date1=" & start_date1.Text & "&end_date1=" & end_date1.Text & "');" + vbCrLf
+        'strScript += "</script>"
+        'Page.RegisterStartupScript("window_onload", strScript)
+
+        Dim relship_str As String = ""
+
+        Try
+            Dim sql As String = "select Relship  from Auth_Relship where RID='" & RIDValue.Value & "'"
+            relship_str = DbAccess.ExecuteScalar(sql)
+        Catch ex As Exception
+
+        End Try
+
+        If relship_str = "" Then
+            Common.MessageBox(Me, "訓練機構資料有誤，請重新選擇!!")
+            Exit Sub
+        End If
+
+        Dim MyValue As String = ""
+        MyValue = "jkl=jkl"
+        MyValue += "&TPlanID=" & TPlan.SelectedValue
+        If syear.SelectedValue <> "" Then
+            MyValue += "&Years=" & syear.SelectedValue
+        Else
+            MyValue += "&Years=" & sm.UserInfo.Years
+        End If
+
+        MyValue += "&start_date=" & start_date.Text
+        MyValue += "&end_date=" & end_date.Text
+        MyValue += "&start_date1=" & start_date1.Text
+        MyValue += "&end_date1=" & end_date1.Text
+
+        If Me.CheckBox1.Checked = True Then
+            MyValue += "&Relship=" & relship_str
+        Else
+            MyValue += "&Relship2=" & relship_str
+            'MyValue += "&RID=" & RIDValue.Value
+        End If
+
+        TIMS.CloseDbConn(objconn) : ReportQuery.PrintReport(Me, "MultiBlock", "CP_02_011_R", MyValue)
+
+    End Sub
+
+End Class

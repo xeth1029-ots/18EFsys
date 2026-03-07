@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="https://wltims.wda.gov.tw/bli_wsv4/get_data3.asmx?disco" filename="get_data3.disco" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="https://wltims.wda.gov.tw/bli_wsv4/get_data3.asmx?wsdl" filename="get_data3.wsdl" />
+  </Results>
+</DiscoveryClientResultsFile>

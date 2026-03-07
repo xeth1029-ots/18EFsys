@@ -1,0 +1,1 @@
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="ValidateCode.aspx.vb" Inherits="WDAIIP.ValidateCode" %>

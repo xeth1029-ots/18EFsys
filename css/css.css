@@ -1,0 +1,196 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+.col {
+	font-family: "Trebuchet MS";
+	font-size: 12px;
+	line-height: 16px;
+	color: #666666;
+	background-color:#E3F8FD;
+	text-align:center;
+}
+
+.info {
+	font-size: 12px;
+	line-height: 20px;
+	color: #222222;
+	text-decoration: none;
+}
+
+.white12 {
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.right-img {
+	background-color: #bee3fa;
+	background-image: url(../images/right-center-.gif);
+	background-repeat: repeat-y;
+	background-position: left;
+}
+
+.co-bk {
+	font-size: 12px;
+	color: #000000;
+}
+
+#white a:link {
+	font-size: 12px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+#white a:hover {
+	font-size: 12px;
+	color: #FFFF00;
+	text-decoration: underline;
+}
+#white a:visited {
+	font-size: 12px;
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+.left-img {
+	background-color: #FFFFFF;
+	background-image: none;
+	background-repeat: repeat-y;
+	border: 1px solid #999999;
+}
+.left-border {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #F0F0F0;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+}
+#bk a:link {
+	font-size: 13px;
+	color: #000000;
+	text-decoration: none;
+}
+#bk a:hover {
+	font-size: 13px;
+	color: #FF9900;
+	text-decoration: underline;
+	font-weight: bold;
+}
+#bk a:visited {
+	font-size: 13px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: underline;
+}
+
+.font {
+	font-size: 12px;
+	line-height: 16px;
+	color: #696969;
+}
+.fontmsn {
+	font-size: 12px;
+	line-height: 16px;
+	color: #696969;
+}
+.fontMenu {
+	font-size: 15px;
+	line-height: 16px;
+	color: #696969;
+}
+
+.head {
+	font-size: 12px;
+	font-weight: bold;
+	color: #696969;
+	background-color:#E3F8FD;
+	line-height:22px;
+	text-align:center;
+}
+
+.head2 {
+	font-size: 12px;
+	background-color:#ccccff;
+	text-align:center;
+}
+
+.head3 {
+	font-size: 12px;
+	background-color:#FFFFBF;
+	text-align:center;
+}
+
+.needcol {
+	font-size: 12px;
+	color: #FF0000;
+	line-height: 22px;
+	text-align:center;
+	background-color:#E3F8FD;
+}
+
+.gencol {
+	font-size: 12px;
+	color: #696969;
+	line-height: 22px;
+	text-align:center;
+	background-color:#E3F8FD;
+}
+
+.inputstyle {
+	border-color:Silver;
+	border-width:1px;
+	border-style:solid;
+	color: #222222;
+}
+
+.font_10px {
+	font-size: 11px; 
+	color: #696969;
+}
+
+.ques_head {
+	font-size: 15px;
+	line-height: 24px;
+	color: #696969;
+}
+
+a.menulink:link {font-size: 13px;text-decoration:none;font-family:"新細明體", "細明體", "Arial, Helvetica, sans-serif";line-height: 16px; color: #5288b2; font-weight:bold;}
+a.menulink:visited {font-size: 13px;text-decoration:none;font-family:"新細明體", "細明體", "Arial, Helvetica, sans-serif";color: #5288b2;font-weight:bold;}
+a.menulink:active {font-size: 13px;	text-decoration:none;font-family:"新細明體", "細明體", "Arial, "Helvetica", sans-serif";color: #5288b2;font-weight:bold;}
+a.menulink:hover {font-size: 13px; text-decoration:none; font-family:"新細明體", "細明體", "Arial, "Helvetica", sans-serif";color: #FF9900;font-weight:bold;}
+
+a.toplink:link {font-size: 12px;color: #FFFFFF;text-decoration:none;}
+a.toplink:visited {font-size: 12px;color: #FFFFFF;text-decoration:none;}
+a.toplink:hover {font-size: 12px;color: #FFFFFF;text-decoration:none;position: relative;left:1px;top:1px}
+a.toplink:active {font-size: 12px;color: #FFFFFF;text-decoration:none;}
+
+a.toplink2:link {font-size: 12px;color: #000000;text-decoration:none;}
+a.toplink2:visited {font-size: 12px;color: #000000;text-decoration:none;}
+a.toplink2:hover {font-size: 12px;color: #000000;text-decoration:none;}
+a.toplink2:active {font-size: 12px;color: #000000;text-decoration:none;}
+
+a.word_1:link {font-weight:bold;font-size: 13px;line-height: 18px;color: #37832D;text-decoration: none;font-family: "Trebuchet MS";}
+a.word_1:visited {font-weight:bold;font-size: 13px;line-height: 18px;color: #37832D;text-decoration: none;font-family: "Trebuchet MS";}
+a.word_1:hover {font-weight:bold;font-size: 13px;line-height: 18px;color: #696969;text-decoration: none;}
+a.word_1:active {font-weight:bold;font-size: 13px;line-height: 18px;color: #696969;}
+
+a.linkbutton:link {font-size: 12px;text-decoration:underline;font-family:"新細明體", "細明體", "Arial, Helvetica, sans-serif";line-height: 16px;color: #0075a9}
+a.linkbutton:visited {font-size: 12px;text-decoration:underline;font-family:"新細明體", "細明體", "Arial, Helvetica, sans-serif";line-height: 16px;color: #0075a9}
+a.linkbutton:active {font-size: 12px;text-decoration:none;font-family:"新細明體", "細明體", "Arial, "Helvetica", sans-serif";line-height: 16px;color: #0075a9}
+a.linkbutton:hover {font-size: 12px;text-decoration:underline; font-family:"新細明體", "細明體", "Arial, "Helvetica", sans-serif";color: #FF0000;}
+
+a.button:link {width:63px;height:22px;font-size: 13px;color: #003300;background-image: url(images/icon-03.gif.jpg);text-decoration: none;font-weight: normal;vertical-align: middle;}
+a.button:visited {width:63px;height:22px;font-size: 13px;color: #003300;background-image: url(images/icon-03.gif.jpg);text-decoration: none;vertical-align: middle;}
+a.button:hover {width:63px;height:22px;font-size: 13px;color: #FF9900;background-image: url(images/icon-03.gif.jpg);text-decoration: none; vertical-align: middle;position: relative;left:1px;top:1px}
+a.button:active {font-size: 13px;line-height: 18px;color: #FF9900;vertical-align: middle;}
+
+
+
+
+
+
+
