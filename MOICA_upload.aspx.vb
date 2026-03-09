@@ -26,6 +26,11 @@
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        '1. 強制實施 HTTPS 安全傳輸
+        If Not Request.IsSecureConnection Then Response.Redirect(Request.Url.ToString().Replace("http:", "https:"))
+        '2. 加入 CSRF 防護機制 (隨機驗證碼 Nonce),生成 Token
+        If Not IsPostBack Then Session("CSRF_TOKEN") = Guid.NewGuid().ToString()
+
         sm = SessionModel.Instance()
         objconn = DbAccess.GetConnection()
         AddHandler MyBase.Unload, AddressOf sUtl_PageUnload
@@ -44,9 +49,7 @@
             Return 'Exit Sub
         End If
 
-        'If Not IsPostBack Then
-
-        'End If
+        'If Not IsPostBack Then 'End If
 
         'Me.Lit_LastResultMessage.Text=sm.LastResultMessage
         'Me.Lit_LastErrorMessage.Text=sm.LastErrorMessage
@@ -54,7 +57,8 @@
     End Sub
 
     '輸入帳號 確認送出
-    Protected Sub bt_submit_Click(sender As Object, e As System.EventArgs) Handles bt_submit.Click
+    Protected Sub Bt_submit_Click(sender As Object, e As System.EventArgs) Handles bt_submit.Click
+        If Request.Form("csrf_token") <> Session("CSRF_TOKEN") Then Throw New Exception("無效的請求驗證。")
 
         clickExec = True
 
@@ -82,16 +86,16 @@
             Return
         End If
 
-        If Me.txtUserPass.Text <> "" Then
-            sTxtPass = Me.txtUserPass.Text
+        If txtUserPass.Text <> "" Then
+            sTxtPass = txtUserPass.Text
         Else
             sm.LastErrorMessage = "請輸入帳號/密碼"
             Return
         End If
 
-        If txtVCode.Text <> "" Then txtVCode.Text = txtVCode.Text.Trim
-        If Me.txtVCode.Text <> "" Then
-            sVCode = Me.txtVCode.Text
+        txtVCode.Text = TIMS.ClearSQM(txtVCode.Text)
+        If txtVCode.Text <> "" Then
+            sVCode = txtVCode.Text
         Else
             sm.LastErrorMessage = "請輸入驗證碼"
             Return
