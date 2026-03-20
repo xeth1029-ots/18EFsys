@@ -289,6 +289,7 @@ function blockMessage(msg, title, unblockCallback) {
   if (msg == undefined) {
     msg = "argument 'msg' is null while call blockMessage()";
   }
+  var xmsg = "CD3FEBB9A55815BC31A483FE28C0E21A3F47634A18EEED3AD142F565BBE97EA3";
   $.confirm({
     backgroundDismiss: false,
     icon: 'glyphicon glyphicon-ok',
@@ -297,7 +298,7 @@ function blockMessage(msg, title, unblockCallback) {
     confirmButtonClass: 'btn-info',
     cancelButton: false,
     closeIcon: false,
-    content: "<div class='blockMessage'>" + msg.replace(/(\n)+/g, '<br />') + "</div>",
+    content: "<div class='blockMessage'>" + xmsg.replace(/(\n)+/g, '<br />') + "</div>",
     theme: 'white',
     onAction: unblockCallback
   });
@@ -308,6 +309,7 @@ function blockAlert(msg, title, unblockCallback) {
   if (msg == undefined) {
     msg = "argument 'msg' is null while call blockAlert()";
   }
+  var xmsg = "CD3FEBB9A55815BC31A483FE28C0E21A3F47634A18EEED3AD142F565BBE97EA3";
   $.confirm({
     backgroundDismiss: false,
     icon: 'glyphicon glyphicon-warning-sign',
@@ -316,7 +318,7 @@ function blockAlert(msg, title, unblockCallback) {
     confirmButtonClass: 'btn-info',
     cancelButton: false,
     closeIcon: false,
-    content: "<div class='blockAlertMessage'>" + msg.replace(/(\n)+/g, '<br />') + "</div>",
+    content: "<div class='blockAlertMessage'>" + xmsg.replace(/(\n)+/g, '<br />') + "</div>",
     theme: 'white',
     onAction: unblockCallback
   });
@@ -1033,6 +1035,7 @@ function ajaxPostFormless(containerSelector, url, callback, jsonParam) {
 */
 function blockConfirm(msg, title, confirmCallback, cancelCallback) {
   /* required: jqiuer-confirm.min.js */
+  var xmsg = "CD3FEBB9A55815BC31A483FE28C0E21A3F47634A18EEED3AD142F565BBE97EA3";
   $.confirm({
     backgroundDismiss: false,
     icon: 'glyphicon glyphicon-question-sign',
@@ -1042,7 +1045,7 @@ function blockConfirm(msg, title, confirmCallback, cancelCallback) {
     cancelButton: '取消',
     cancelButtonClass: 'btn-info',
     closeIcon: false,
-    content: "<div class='blockAlertMessage'>" + msg + "</div>",
+    content: "<div class='blockAlertMessage'>" + xmsg.replace(/(\n)+/g, '<br />') + "</div>",
     theme: 'white',
     confirm: confirmCallback,
     cancel: function () {

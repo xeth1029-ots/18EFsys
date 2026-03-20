@@ -9,7 +9,7 @@
     Dim PlanKind As Integer
     Dim objconn As SqlConnection
 
-    Private Sub sUtl_PageUnload(ByVal sender As Object, ByVal e As System.EventArgs)
+    Private Sub SUtl_PageUnload(ByVal sender As Object, ByVal e As System.EventArgs)
         Call TIMS.CloseDbConn(objconn)
     End Sub
 
@@ -18,7 +18,7 @@
         ' (直接在 AuthBasePage 處理, 不用個別檢查 Session)  TIMS.CheckSession(Me)
         'TIMS.Get_TitleLab(Request("ID"), TitleLab1, TitleLab2)
         objconn = DbAccess.GetConnection()
-        AddHandler MyBase.Unload, AddressOf sUtl_PageUnload
+        AddHandler MyBase.Unload, AddressOf SUtl_PageUnload
         '分頁設定---------------Start
         PageControler1.PageDataGrid = DG_Budget
         '分頁設定---------------End
@@ -57,7 +57,7 @@
         '檢查核銷方式--------------------End
 
         '經費關帳
-        Call getBudgetClose()
+        Call GetBudgetClose()
 
         '依sm.UserInfo.PlanID取得PlanKind
         PlanKind = TIMS.Get_PlanKind(Me, objconn)
@@ -77,7 +77,7 @@
             End If
 
             '取得查詢條件
-            If Not Session("BudgetSearchStr") Is Nothing Then
+            If Session("BudgetSearchStr") IsNot Nothing Then
                 Dim MyValue As String = ""
                 Dim sSession1 As String = Convert.ToString(Session("BudgetSearchStr"))
                 Session("BudgetSearchStr") = Nothing
@@ -99,7 +99,7 @@
 
                 MyValue = TIMS.GetMyValue(sSession1, "Button1")
                 If MyValue = "True" Then
-                    bt_search_Click(sender, e)
+                    Bt_search_Click(sender, e)
                     If IsNumeric(Me.ViewState("PageIndex")) Then
                         PageControler1.PageIndex = Me.ViewState("PageIndex")
                         PageControler1.CreateData()
@@ -129,7 +129,7 @@
     End Sub
 
     '取得關帳設定資料
-    Private Sub getBudgetClose()
+    Private Sub GetBudgetClose()
         Dim conn As SqlConnection = DbAccess.GetConnection()
         Dim sda As New SqlDataAdapter
         Dim ds As New DataSet
@@ -168,8 +168,8 @@
             Common.MessageBox(Me, ex.ToString)
         Finally
             conn.Close()
-            If Not sda Is Nothing Then sda.Dispose()
-            If Not ds Is Nothing Then ds.Dispose()
+            If sda IsNot Nothing Then sda.Dispose()
+            If ds IsNot Nothing Then ds.Dispose()
         End Try
     End Sub
 
@@ -183,11 +183,11 @@
         End If
 
         If start_date.Text <> "" Then
-            Rst += " and " & classTag & ".STDate>= " & TIMS.to_date(start_date.Text) & vbCrLf
+            Rst += " and " & classTag & ".STDate>= " & TIMS.To_date(start_date.Text) & vbCrLf
         End If
 
         If end_date.Text <> "" Then
-            Rst += " and " & classTag & ".FTDate<= " & TIMS.to_date(start_date.Text) & vbCrLf '" & end_date.Text & "' " & vbCrLf
+            Rst += " and " & classTag & ".FTDate<= " & TIMS.To_date(start_date.Text) & vbCrLf '" & end_date.Text & "' " & vbCrLf
         End If
 
         If TB_cycltype.Text <> "" Then
@@ -207,7 +207,7 @@
         Return Rst
     End Function
 
-    Sub search1()
+    Sub Search1()
         If Trim(Me.TxtPageSize.Text) <> "" And IsNumeric(Me.TxtPageSize.Text) Then
             If CInt(Me.TxtPageSize.Text) >= 1 Then
                 Me.TxtPageSize.Text = Trim(Me.TxtPageSize.Text)
@@ -221,7 +221,6 @@
         End If
         If Me.TxtPageSize.Text <> Me.DG_Budget.PageSize Then Me.DG_Budget.PageSize = Me.TxtPageSize.Text
 
-        Dim sql As String = ""
         'Dim Relship As String = ""
         If RIDValue.Value = "" Then
             RIDValue.Value = sm.UserInfo.RID
@@ -230,9 +229,8 @@
         'Relship = DbAccess.ExecuteScalar(sql, objconn)
         Dim Relship As String = TIMS.GET_RelshipforRID(RIDValue.Value, objconn)
 
-        sql = "" & vbCrLf
-        sql += " select  " & vbCrLf
-        sql += "  a.OCID,aa.ClassCName,a.CyclType,b.AdmPercent,a.RID,a.STDate,a.FTDate,a.THours,a.Tnum" & vbCrLf
+        Dim sql As String = ""
+        sql += " select a.OCID,aa.ClassCName,a.CyclType,b.AdmPercent,a.RID,a.STDate,a.FTDate,a.THours,a.Tnum" & vbCrLf
         sql += " ,rr.orgname,rr.relship,a.planid,a.comidno,a.seqno,c.classid" & vbCrLf
         sql += " ,dbo.NVL(aa.no1,0) no1" & vbCrLf
         sql += " ,dbo.NVL(aa2.x01,0) x01" & vbCrLf
@@ -359,8 +357,8 @@
     End Sub
 
     '查詢
-    Private Sub bt_search_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles bt_search.Click
-        Call search1()
+    Private Sub Bt_search_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles bt_search.Click
+        Call Search1()
     End Sub
 
     Private Sub DG_Budget_ItemCommand(ByVal source As Object, ByVal e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles DG_Budget.ItemCommand
@@ -374,7 +372,7 @@
         'Dim cost As Double
         Select Case e.Item.ItemType
             Case ListItemType.Header
-                If Not Me.ViewState("sort") Is Nothing Then
+                If Me.ViewState("sort") IsNot Nothing Then
                     Dim img As New UI.WebControls.Image
                     Dim i As Integer
                     Select Case Me.ViewState("sort")

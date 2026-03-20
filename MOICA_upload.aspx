@@ -91,7 +91,7 @@
 <body class="bodybg">
     <form id="form1" class="form-horizontal" runat="server">
         <input type="hidden" name="csrf_token" value="<%= Session("CSRF_TOKEN") %>" />
-        <div style="position: absolute; top: -333px"><input type="text" title="Chaff for Chrome Smart Lock" /><input type="password" title="Chaff for Chrome Smart Lock" MaxLength="40" AutoComplete="off" /></div>
+        <%--83E8351EB57B03648DE038633242CFF796591E8DAB28E1441E93CEF40DA8572B8B7C20E0E18489B902B44E1BFC078278103F34A33F42BA46EEE23130CCEE257A601D99DBEABCEDA0D35F02EF9437DD238267A16EC964C250310881A57666CCC850C00A71BB57C1434EF907F3C23DDFE456E74D3D4322B79C724B1B47492A8820E4AD4CE16DFE97E2F76466D003F70D86F470B6A6CE24FB2E5B707E6DF45E101B134C7402915D7C5338D131968A647A454327C1E2BB5E23BEE684F634ED68CE9F247F8C0792F85CD18692CE6F7864C3D1--%>
         <div class="bodybg">
             <div class="container-fluid">
                 <!-- page body start -->

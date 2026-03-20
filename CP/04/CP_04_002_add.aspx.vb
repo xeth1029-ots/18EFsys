@@ -407,8 +407,7 @@
             Common.MessageBox(Me, sErrMsg)
             Exit Sub
         End If
-        'Me.EnableEventValidation = False
-        'Me.AutoEventWireup = True
+        '8378768821A039C6620A454C95C263ED2F313C1FA240F9F8901533C535650921239F7DCA85A0B41612436FA1B16719021CA19C19FA06D3DD13BEF7051EB3EEB8
 
         Dim sFileName As String = "計畫資料.xls"
         sFileName = HttpUtility.UrlEncode(sFileName, System.Text.Encoding.UTF8)

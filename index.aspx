@@ -405,7 +405,8 @@
         }
         */
         function getRandom(x) {
-            return (Math.floor(Math.random() * x) + 1);
+            /*return (Math.floor(Math.random() * x) + 1);*/
+            return (Math.floor((window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296) * x) + 1);
         }
         function open_help_1() {
             $s_nopdf_msg = "該功能沒有線上說明文件!";
